@@ -11,7 +11,7 @@ import br.uninter.medalerta.service.UsuarioService;
 
 import java.util.Scanner;
 
-@Component
+// @Component   ← desativa o menu do console
 public class App implements CommandLineRunner {
 
     private Scanner scanner = new Scanner(System.in);
