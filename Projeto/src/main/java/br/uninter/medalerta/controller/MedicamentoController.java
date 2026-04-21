@@ -2,6 +2,8 @@ package br.uninter.medalerta.controller;
 
 import br.uninter.medalerta.model.Medicamento;
 import br.uninter.medalerta.service.MedicamentoService;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ public class MedicamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Medicamento> salvar(@RequestBody Medicamento medicamento) {
+    public ResponseEntity<Medicamento> salvar(@Valid @RequestBody Medicamento medicamento) {
         return ResponseEntity.ok(medicamentoService.salvar(medicamento));
     }
 

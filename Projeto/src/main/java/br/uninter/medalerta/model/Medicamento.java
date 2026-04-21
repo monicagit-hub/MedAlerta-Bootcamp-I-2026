@@ -1,6 +1,7 @@
 package br.uninter.medalerta.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Medicamento")
@@ -10,6 +11,7 @@ public class Medicamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMedicamento;
 
+    @NotBlank(message = "Nome comercial é obrigatório")
     @Column(nullable = false, length = 100)
     private String nomeComercial;
 
