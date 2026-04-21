@@ -138,7 +138,7 @@ POST http://localhost:8080/usuarios
 
 | # | Melhoria | Status |
 |---|----------|--------|
-| 1 | Tratamento de erros (Exception Handler) | ⬜ Pendente |
+| 1 | Tratamento de erros (Exception Handler) | ✅ Concluído |
 | 2 | Validações com Bean Validation | ⬜ Pendente |
 | 3 | Testes automatizados (unitários e integração) | ⬜ Pendente |
 | 4 | Documentação com Swagger/OpenAPI | ⬜ Pendente |

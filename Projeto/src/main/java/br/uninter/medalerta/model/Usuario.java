@@ -1,6 +1,8 @@
 package br.uninter.medalerta.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Usuario")
@@ -10,14 +12,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idUsuario;
 
+    @NotBlank(message = "Nome é obrigatório")
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @NotBlank(message = "Telefone é obrigatório")
     @Column(nullable = false, length = 20)
     private String telefone;
 
+    @NotBlank(message = "Email é obrigatório")
+    @Email(message = "Email inválido")
     @Column(nullable = false, length = 100)
     private String email;
+
 
     @Column(length = 100)
     private String enderecoRua;

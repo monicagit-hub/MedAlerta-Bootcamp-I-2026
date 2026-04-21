@@ -5,6 +5,7 @@ import br.uninter.medalerta.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> salvar(@Valid @RequestBody Usuario usuario) {
         return ResponseEntity.ok(usuarioService.salvar(usuario));
     }
 
