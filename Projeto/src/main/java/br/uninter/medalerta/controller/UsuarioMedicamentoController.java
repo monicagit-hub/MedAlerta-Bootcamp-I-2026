@@ -26,7 +26,7 @@ public class UsuarioMedicamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioMedicamento> salvar(
+    public ResponseEntity<UsuarioMedicamento> salvar( 
             @RequestParam Integer idUsuario,
             @RequestParam Integer idMedicamento,
             @RequestParam String dosagem,

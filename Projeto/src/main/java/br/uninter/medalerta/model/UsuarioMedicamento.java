@@ -2,6 +2,8 @@ package br.uninter.medalerta.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+
 
 @Entity
 @Table(name = "UsuarioMedicamento")
@@ -19,12 +21,13 @@ public class UsuarioMedicamento {
     @JoinColumn(name = "idMedicamento", nullable = false)
     private Medicamento medicamento;
 
-
-    @Column(length = 50)
+    @NotBlank(message = "Dosagem é obrigatório")
+    @Column(nullable = false, length = 50)
     private String dosagem;
 
-    @Column(length = 100)
-    private String formaUso;
+    @NotBlank(message = "Forma de uso é obrigatório")
+    @Column(nullable = false, length = 100)
+     private String formaUso;
 
     @OneToMany(mappedBy = "usuarioMedicamento", cascade = CascadeType.ALL)
     private List<Horario> horarios;
