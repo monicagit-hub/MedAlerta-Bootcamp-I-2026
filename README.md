@@ -265,10 +265,8 @@ O projeto inclui pipeline de integração contínua que:
 
 ---
 
-## 📜 Certificação
+## 🚀 Evolução do Projeto
 
-Este bootcamp oferece **certificação de 8 horas** ao concluinte.
+Este projeto foi evoluído além do bootcamp com boas práticas de mercado.
 
----
-
-*Bootcamp I — 2026 | Escola Politécnica/UNINTER*
+> Acesse o [documento de evolução](./Projeto/docs/EVOLUCAO.md) para ver os novos passos!
