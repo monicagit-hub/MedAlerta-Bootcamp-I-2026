@@ -2,7 +2,7 @@ package br.uninter.medalerta.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+//import org.springframework.stereotype.Component;
 
 import br.uninter.medalerta.model.Medicamento;
 import br.uninter.medalerta.model.Usuario;
