@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -20,15 +19,6 @@ public class GlobalExceptionHandler {
             ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErroResponse> handleException(Exception ex) {
-        ErroResponse erro = new ErroResponse(
-            HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            "Erro interno do servidor"
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erro);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
