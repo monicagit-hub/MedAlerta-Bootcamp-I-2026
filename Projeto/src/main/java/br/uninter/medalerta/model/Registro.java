@@ -2,6 +2,8 @@ package br.uninter.medalerta.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "Registro")
@@ -17,7 +19,8 @@ public class Registro {
 
     private LocalDateTime dataHorarioConsumo;
 
-    @Enumerated(EnumType.STRING)
+
+    @NotNull(message = "confirmação de consumo é obrigatório")
     @Column(nullable = false)
     private ConfirmacaoConsumoEnum confirmacaoConsumo;
 

@@ -2,6 +2,7 @@ package br.uninter.medalerta.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Alerta")
@@ -15,10 +16,11 @@ public class Alerta {
     @JoinColumn(name = "idHorario", nullable = false)
     private Horario horario;
 
+    @NotNull(message = "data horario alerta é obrigatório")
     @Column(nullable = false)
-    private LocalDateTime dataHorarioAlerta;
+     private LocalDateTime dataHorarioAlerta;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status alerta é obrigatório")
     @Column(nullable = false)
     private StatusAlertaEnum statusAlerta;
 

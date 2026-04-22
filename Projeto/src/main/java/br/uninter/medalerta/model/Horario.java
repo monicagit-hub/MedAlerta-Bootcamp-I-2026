@@ -3,6 +3,8 @@ package br.uninter.medalerta.model;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
+import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "Horario")
@@ -16,6 +18,7 @@ public class Horario {
     @JoinColumn(name = "idUsuarioMedicamento", nullable = false)
     private UsuarioMedicamento usuarioMedicamento;
 
+    @NotNull(message = "Horário de uso é obrigatório")
     @Column(nullable = false)
     private LocalTime horarioUso;
 
