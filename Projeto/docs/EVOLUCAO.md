@@ -140,8 +140,8 @@ POST http://localhost:8080/usuarios
 |---|----------|--------|
 | 1 | Tratamento de erros (Exception Handler) | ✅ Concluído |
 | 2 | Validações com Bean Validation | ✅ Concluído |
-| 3 | Documentação com Swagger/OpenAPI | ⬜ Pendente |
-| 4 | Testes automatizados (unitários e integração) | ⬜ Pendente |
+| 3 | Documentação com Swagger/OpenAPI | ✅ Concluído |
+| 4 | Testes automatizados (unitários e integração) | ✅ Concluído |
 | 5 | Segurança com Spring Security + JWT | ⬜ Pendente |
 
 ---
