@@ -1,5 +1,8 @@
 package br.uninter.medalerta.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +27,12 @@ public class Usuario {
     @Email(message = "Email inválido")
     @Column(nullable = false, length = 100)
     private String email;
+
+    @JsonIgnore
+    @Column(nullable = false)
+    private String senha;
+   
+
 
 
     @Column(length = 100)
@@ -68,6 +77,9 @@ public class Usuario {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getSenha() { return senha; }
+    public void setSenha(String senha) { this.senha = senha; }
 
     public String getEnderecoRua() { return enderecoRua; }
     public void setEnderecoRua(String enderecoRua) { this.enderecoRua = enderecoRua; }
