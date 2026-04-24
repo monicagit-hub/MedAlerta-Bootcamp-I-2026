@@ -31,6 +31,14 @@ public class Usuario {
     @JsonIgnore
     @Column(nullable = false)
     private String senha;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RoleEnum role = RoleEnum.USER;
+
+    public enum RoleEnum {
+        USER, ADMIN
+    }
    
 
 
@@ -80,6 +88,9 @@ public class Usuario {
 
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
+
+    public RoleEnum getRole() { return role; }
+    public void setRole(RoleEnum role) { this.role = role; }
 
     public String getEnderecoRua() { return enderecoRua; }
     public void setEnderecoRua(String enderecoRua) { this.enderecoRua = enderecoRua; }

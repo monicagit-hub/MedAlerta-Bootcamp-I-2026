@@ -8,6 +8,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+
 
 import java.util.Map;
 
@@ -40,13 +42,35 @@ public class AuthController {
     }
 
     @PostMapping("/registro")
-    public ResponseEntity<?> registro(@RequestBody Usuario usuario) {
-        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body(Map.of("erro", "Email já cadastrado!"));
-        }
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        usuarioRepository.save(usuario);
-        return ResponseEntity.ok(Map.of("mensagem", "Usuário cadastrado com sucesso!"));
+    public ResponseEntity<?> registro(@RequestBody Map<String, String> dados) {
+    String email = dados.get("email");
+    String senha = dados.get("senha");
+    String nome = dados.get("nome");
+    String telefone = dados.get("telefone");
+    String roleStr = dados.get("role");
+
+    if (usuarioRepository.findByEmail(email).isPresent()) {
+        return ResponseEntity.badRequest().body(Map.of("erro", "Email já cadastrado!"));
+    }
+
+    Usuario usuario = new Usuario(nome, telefone, email);
+    usuario.setSenha(passwordEncoder.encode(senha));
+
+    if (roleStr != null && roleStr.equals("ADMIN")) {
+        usuario.setRole(Usuario.RoleEnum.ADMIN);
+    }
+
+    usuarioRepository.save(usuario);
+    return ResponseEntity.ok(Map.of("mensagem", "Usuário cadastrado com sucesso!"));
+}
+
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication) {
+        String email = authentication.getName();
+        return usuarioRepository.findByEmail(email)
+                .map(usuario -> ResponseEntity.ok(usuario))
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }
