@@ -10,6 +10,8 @@ O projeto entregue no bootcamp funcionava como um **console app** — um menu in
 
 A decisão foi evoluir o projeto para uma **API REST profissional**, mantendo toda a base construída (Models, Repositories e Services) e adicionando novas camadas e boas práticas.
 
+
+
 > 📋 Para ver o projeto base do bootcamp, acesse o [README principal](/README.md)
 
 
@@ -25,12 +27,14 @@ A decisão foi evoluir o projeto para uma **API REST profissional**, mantendo to
 | Usuário digita no console | Requisições JSON via Postman |
 | `App.java` com `CommandLineRunner` | Controllers REST com `@RestController` |
 | Sem Tomcat | Tomcat embutido na porta 8080 |
+| Sem autenticação | JWT com roles ADMIN e USER |
+| Sem testes automatizados | 33 testes unitários e de integração |
 
 ---
 
 ## 📦 O que foi adicionado
 
-### Controllers REST (6 controllers)
+### 1. Controllers REST (6 controllers)
 
 ```
 controller/
@@ -42,95 +46,170 @@ controller/
 └── RegistroController.java
 ```
 
-### Dependência adicionada no `pom.xml`
+### 2. Tratamento de erros
+
+```
+exception/
+├── ErroResponse.java           ← molde do JSON de erro
+└── GlobalExceptionHandler.java ← intercepta exceções
+```
+
+Retorno padronizado para erros:
+```json
+{ "status": 404, "mensagem": "Usuário não encontrado! ID: 999" }
+{ "status": 400, "mensagem": "[nome: Nome é obrigatório]" }
+```
+
+### 3. Validações com Bean Validation
+
+| Entidade | Campo | Anotação |
+|----------|-------|----------|
+| `Usuario` | nome, telefone, email | `@NotBlank`, `@Email` |
+| `Medicamento` | nomeComercial | `@NotBlank` |
+| `UsuarioMedicamento` | dosagem, formaUso | `@NotBlank` |
+| `Horario` | horarioUso | `@NotNull` |
+| `Alerta` | dataHorarioAlerta, statusAlerta | `@NotNull` |
+| `Registro` | confirmacaoConsumo | `@NotNull` |
+
+### 4. Documentação com Swagger/OpenAPI
+
+Acesse em: `http://localhost:8080/swagger-ui/index.html`
 
 ```xml
 <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-web</artifactId>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.8.6</version>
 </dependency>
 ```
+
+### 5. Testes automatizados (33 testes)
+
+**Testes unitários (Services)** — usam `@Mock` para simular o banco:
+
+```
+UsuarioServiceTest             → 3 testes
+MedicamentoServiceTest         → 3 testes
+UsuarioMedicamentoServiceTest  → 3 testes
+HorarioServiceTest             → 3 testes
+AlertaServiceTest              → 3 testes
+RegistroServiceTest            → 3 testes
+```
+
+**Testes de integração (Controllers)** — usam `MockMvc` para simular requisições HTTP:
+
+```
+UsuarioControllerTest          → 3 testes
+MedicamentoControllerTest      → 3 testes
+UsuarioMedicamentoControllerTest → 2 testes
+HorarioControllerTest          → 2 testes
+AlertaControllerTest           → 2 testes
+RegistroControllerTest         → 2 testes
+MedalertaApplicationTests      → 1 teste
+                                = 33 testes ✅
+```
+
+Rodar todos os testes:
+```bash
+docker compose exec app mvn test
+```
+
+### 6. Segurança com JWT + Spring Security
+
+```
+security/
+├── JwtUtil.java               ← gera e valida tokens
+├── JwtFilter.java             ← intercepta requisições
+├── UsuarioDetalhes.java       ← adapta Usuario para Spring Security
+├── UsuarioDetalhesService.java ← carrega usuário por email
+├── SecurityConfig.java        ← configura regras de acesso
+└── AuthController.java        ← endpoints de autenticação
+```
+
+**Roles implementadas:**
+
+| Role | Acesso |
+|------|--------|
+| `ADMIN` | Acessa todos os endpoints |
+| `USER` | Acessa só `/auth/me` e seus próprios dados |
+
+**Campos adicionados no `Usuario`:**
+- `senha` — armazenada com `BCryptPasswordEncoder` (nunca em texto puro)
+- `role` — `USER` (padrão) ou `ADMIN`
 
 ---
 
 ## 🌐 Endpoints disponíveis
 
-### Usuários
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/usuarios` | Listar todos |
-| GET | `/usuarios/{id}` | Buscar por ID |
-| POST | `/usuarios` | Cadastrar |
-| DELETE | `/usuarios/{id}` | Deletar |
+### Autenticação (públicos — sem token)
 
-### Medicamentos
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
-| GET | `/medicamentos` | Listar todos |
-| GET | `/medicamentos/{id}` | Buscar por ID |
-| POST | `/medicamentos` | Cadastrar |
-| DELETE | `/medicamentos/{id}` | Deletar |
+| POST | `/auth/registro` | Cadastrar novo usuário |
+| POST | `/auth/login` | Fazer login e receber token JWT |
+| GET | `/auth/me` | Ver dados do usuário logado |
 
-### Vínculos (UsuarioMedicamento)
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/vinculos` | Listar todos |
-| GET | `/vinculos/{id}` | Buscar por ID |
-| POST | `/vinculos` | Vincular usuário a medicamento |
-| DELETE | `/vinculos/{id}` | Deletar |
+### Usuários (protegidos)
 
-### Horários
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/horarios` | Listar todos |
-| GET | `/horarios/{id}` | Buscar por ID |
-| POST | `/horarios` | Cadastrar |
-| DELETE | `/horarios/{id}` | Deletar |
+| Método | Endpoint | Acesso | Descrição |
+|--------|----------|--------|-----------|
+| GET | `/usuarios` | ADMIN | Listar todos |
+| GET | `/usuarios/{id}` | ADMIN, USER | Buscar por ID |
+| POST | `/usuarios` | ADMIN | Cadastrar |
+| DELETE | `/usuarios/{id}` | ADMIN | Deletar |
 
-### Alertas
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/alertas` | Listar todos |
-| GET | `/alertas/{id}` | Buscar por ID |
-| POST | `/alertas` | Cadastrar |
-| DELETE | `/alertas/{id}` | Deletar |
+### Demais recursos (autenticados)
 
-### Registros
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/registros` | Listar todos |
-| GET | `/registros/{id}` | Buscar por ID |
-| POST | `/registros` | Cadastrar |
-| DELETE | `/registros/{id}` | Deletar |
+| Método | Endpoint |
+|--------|----------|
+| GET/POST/DELETE | `/medicamentos` |
+| GET/POST/DELETE | `/vinculos` |
+| GET/POST/DELETE | `/horarios` |
+| GET/POST/DELETE | `/alertas` |
+| GET/POST/DELETE | `/registros` |
 
 ---
 
 ## 🧪 Como testar
 
-### Subir o projeto
+### 1. Subir o projeto
 
 ```bash
 docker compose up -d
 docker compose exec app mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-### Exemplo de requisição POST para cadastrar usuário
+### 2. Registrar usuário admin
 
 ```json
-POST http://localhost:8080/usuarios
-
+POST http://localhost:8080/auth/registro
 {
-    "nome": "Ana Souza",
-    "telefone": "41999990001",
-    "email": "ana.souza@email.com",
-    "enderecoRua": "Rua A",
-    "enderecoNumero": 10,
-    "enderecoBairro": "Centro",
-    "enderecoCEP": "80000-001",
-    "enderecoCidade": "Curitiba",
-    "enderecoEstado": "PR"
+    "nome": "Monica",
+    "telefone": "47984964545",
+    "email": "monica@email.com",
+    "senha": "123456",
+    "role": "ADMIN"
 }
 ```
+
+### 3. Fazer login e pegar token
+
+```json
+POST http://localhost:8080/auth/login
+{
+    "email": "monica@email.com",
+    "senha": "123456"
+}
+```
+
+Resposta:
+```json
+{ "token": "eyJhbGciOiJIUzI1NiJ9..." }
+```
+
+### 4. Usar o token nas requisições
+
+No Postman: **Authorization → Bearer Token → colar o token**
 
 ---
 
@@ -141,18 +220,29 @@ POST http://localhost:8080/usuarios
 | 1 | Tratamento de erros (Exception Handler) | ✅ Concluído |
 | 2 | Validações com Bean Validation | ✅ Concluído |
 | 3 | Documentação com Swagger/OpenAPI | ✅ Concluído |
-| 4 | Testes automatizados (unitários e integração) | ✅ Concluído |
-| 5 | Segurança com Spring Security + JWT | ⬜ Pendente |
+| 4 | Testes automatizados (33 testes) | ✅ Concluído |
+| 5 | Segurança com Spring Security + JWT | ✅ Concluído |
+| 6 | Roles ADMIN e USER | ✅ Concluído |
+| 7 | Frontend com Angular | ⬜ Próximo |
 
 ---
 
 ## 📚 Aprendizados
 
-- Arquitetura em camadas permite evoluir sem reescrever tudo — Models, Repositories e Services não foram alterados
+- Arquitetura em camadas permite evoluir sem reescrever tudo
 - `@RestController` substitui o `App.java` como ponto de entrada
-- `spring-boot-starter-web` traz o Tomcat embutido e suporte a HTTP
-- Uma API REST é testada com ferramentas como Postman em vez do terminal
+- `spring-boot-starter-web` traz o Tomcat embutido e suporte HTTP
+- `@Mock` e `MockMvc` permitem testar sem banco de dados real
+- JWT autentica sem guardar sessão no servidor (stateless)
+- `BCryptPasswordEncoder` garante que senhas nunca ficam em texto puro
+- `@JsonIgnore` protege campos sensíveis no retorno da API
+- Roles (`ADMIN`/`USER`) controlam o que cada perfil pode acessar
 
+---
+
+## 🔗 Links úteis
+
+- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 ---
 
 *Evolução pessoal — Abril 2026*
