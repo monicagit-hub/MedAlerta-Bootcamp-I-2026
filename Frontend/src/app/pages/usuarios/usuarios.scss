@@ -1,0 +1,148 @@
+.usuarios-container {
+  min-height: 100vh;
+  background: #080808;
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 3rem;
+  background: rgba(5, 5, 5, 0.98);
+  border-bottom: 1px solid #8b0000;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .navbar-brand span {
+    font-family: 'Georgia', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: white;
+    letter-spacing: 3px;
+  }
+
+  .navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+
+      &:hover { color: white; }
+    }
+
+    button {
+      background: transparent;
+      border: 1px solid #8b0000;
+      color: #cc3333;
+      padding: 0.5rem 1.2rem;
+      border-radius: 2px;
+      cursor: pointer;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #8b0000;
+        color: white;
+      }
+    }
+  }
+}
+
+.usuarios-content {
+  padding: 4rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 3rem;
+  border-left: 3px solid #8b0000;
+  padding-left: 1.5rem;
+
+  h2 {
+    font-family: 'Georgia', serif;
+    font-size: 2.5rem;
+    font-style: italic;
+    color: white;
+    margin: 0;
+  }
+
+  p {
+    color: #555;
+    margin: 0.5rem 0 0;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+}
+
+.carregando, .vazio {
+  color: #555;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 3rem;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    border-bottom: 1px solid #8b0000;
+
+    th {
+      text-align: left;
+      padding: 1rem 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #555;
+      font-weight: normal;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #111;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #0f0f0f;
+    }
+
+    td {
+      padding: 1.2rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  }
+}
+
+.badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: #1a1a1a;
+  color: #555;
+  border: 1px solid #222;
+
+  &.admin {
+    background: rgba(139, 0, 0, 0.2);
+    color: #cc3333;
+    border-color: #8b0000;
+  }
+}
