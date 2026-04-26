@@ -1,0 +1,137 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('https://images.unsplash.com/photo-1502175353174-a7a70e73b362?w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(80, 0, 0, 0.6) 100%
+    );
+  }
+}
+
+.login-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(10, 10, 10, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 3rem;
+  border-radius: 4px;
+  border-top: 3px solid #8b0000;
+  width: 100%;
+  max-width: 420px;
+  color: white;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  h1 {
+    font-family: 'Georgia', serif;
+    font-size: 2.4rem;
+    color: white;
+    margin: 0;
+    letter-spacing: 2px;
+    font-style: italic;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+  }
+
+  p {
+    color: #aaa;
+    margin: 0.5rem 0 0;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+}
+
+.form-group {
+  margin-bottom: 1.4rem;
+
+  label {
+    display: block;
+    font-weight: 600;
+    color: #ccc;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 2px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    color: white;
+    transition: border-color 0.2s;
+
+    &::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #8b0000;
+      background: rgba(255,255,255,0.12);
+    }
+  }
+}
+
+.erro {
+  background: rgba(139, 0, 0, 0.3);
+  border: 1px solid #8b0000;
+  color: #ff6b6b;
+  padding: 0.8rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 1rem;
+  background: #8b0000;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+
+  &:hover:not(:disabled) {
+    background: #a00000;
+  }
+
+  &:disabled {
+    background: #444;
+    cursor: not-allowed;
+  }
+}
+
+.rodape {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+}

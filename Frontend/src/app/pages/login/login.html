@@ -1,1 +1,44 @@
-<p>login works!</p>
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="login-header">
+      <h1> 🩺 MedAlerta</h1>
+      <p>Cada paciente. Cada comprimido. Cada momento.</p>
+    </div>
+
+    <form (ngSubmit)="login()">
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="seu@email.com"
+          required />
+      </div>
+
+      <div class="form-group">
+        <label>Senha</label>
+        <input
+          type="password"
+          [(ngModel)]="senha"
+          name="senha"
+          placeholder="••••••"
+          required />
+      </div>
+
+      @if (erro) {
+        <div class="erro">{{ erro }}</div>
+      }
+
+      <button type="submit" [disabled]="carregando">
+        {{ carregando ? 'Verificando...' : 'Entrar' }}
+      </button>
+
+    </form>
+
+    <div class="rodape">MEDALERTA © 2026</div>
+
+  </div>
+</div>

@@ -1,1 +1,59 @@
-<p>usuarios works!</p>
+<div class="usuarios-container">
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <span>⚕️ MedAlerta</span>
+    </div>
+    <div class="navbar-menu">
+      <a routerLink="/dashboard">Dashboard</a>
+      <button (click)="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <main class="usuarios-content">
+
+    <div class="page-header">
+      <h2>Pacientes</h2>
+      <p>GERENCIAMENTO DE USUÁRIOS</p>
+    </div>
+
+    @if (carregando) {
+      <div class="carregando">Carregando...</div>
+    }
+
+    @if (!carregando && usuarios.length === 0) {
+      <div class="vazio">Nenhum usuário encontrado.</div>
+    }
+
+    @if (!carregando && usuarios.length > 0) {
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios; track usuario.idUsuario) {
+            <tr>
+              <td>{{ usuario.idUsuario }}</td>
+              <td>{{ usuario.nome }}</td>
+              <td>{{ usuario.email }}</td>
+              <td>{{ usuario.telefone }}</td>
+              <td>
+                <span class="badge" [class.admin]="usuario.role === 'ADMIN'">
+                  {{ usuario.role }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </main>
+
+</div>

@@ -1,1 +1,47 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <span>⚕️ MedAlerta</span>
+    </div>
+    <div class="navbar-menu">
+      <a routerLink="/usuarios">Usuários</a>
+      @if (usuario) {
+        <span class="usuario-info">{{ usuario.nome }}</span>
+      }
+      <button (click)="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <main class="dashboard-content">
+
+    @if (usuario) {
+      <div class="boas-vindas">
+        <h2>Bem-vinda, {{ usuario.nome }}!</h2>
+        <p>{{ usuario.email }} · {{ usuario.role }}</p>
+      </div>
+    }
+
+    <p class="secao-titulo">Módulos do sistema</p>
+
+    <div class="cards">
+      <div class="card" routerLink="/usuarios">
+        <span class="card-icon">🩺</span>
+        <h3>Usuários</h3>
+        <p>Gerenciar pacientes</p>
+      </div>
+      <div class="card em-breve">
+        <span class="card-icon">⚕️</span>
+        <h3>Medicamentos</h3>
+        <p>Em breve</p>
+      </div>
+      <div class="card em-breve">
+        <span class="card-icon">🔔</span>
+        <h3>Alertas</h3>
+        <p>Em breve</p>
+      </div>
+    </div>
+
+  </main>
+
+</div>
