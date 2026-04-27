@@ -13,9 +13,77 @@
   <main class="usuarios-content">
 
     <div class="page-header">
-      <h2>Pacientes</h2>
-      <p>GERENCIAMENTO DE USUÁRIOS</p>
+      <div>
+        <h2>Pacientes</h2>
+        <p>GERENCIAMENTO DE USUÁRIOS</p>
+      </div>
+      <button class="btn-novo" (click)="abrirFormularioCadastro()">
+        {{ mostrarFormulario && !editando ? 'Cancelar' : '+ Novo' }}
+      </button>
     </div>
+
+    @if (mostrarFormulario) {
+      <div class="formulario">
+        <h3>{{ editando ? 'Editar Usuário' : 'Novo Usuário' }}</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nome *</label>
+            <input [(ngModel)]="formulario.nome" placeholder="Nome completo" />
+          </div>
+          <div class="form-group">
+            <label>Telefone *</label>
+            <input [(ngModel)]="formulario.telefone" placeholder="Ex: 47999990001" />
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input [(ngModel)]="formulario.email" placeholder="Ex: ana@email.com" />
+          </div>
+          @if (!editando) {
+            <div class="form-group">
+              <label>Senha *</label>
+              <input type="password" [(ngModel)]="formulario.senha" placeholder="••••••" />
+            </div>
+          }
+          <div class="form-group">
+            <label>Role</label>
+            <select [(ngModel)]="formulario.role">
+              <option value="USER">USER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Rua</label>
+            <input [(ngModel)]="formulario.enderecoRua" placeholder="Ex: Rua A" />
+          </div>
+          <div class="form-group">
+            <label>Número</label>
+            <input [(ngModel)]="formulario.enderecoNumero" type="number" placeholder="Ex: 10" />
+          </div>
+          <div class="form-group">
+            <label>Bairro</label>
+            <input [(ngModel)]="formulario.enderecoBairro" placeholder="Ex: Centro" />
+          </div>
+          <div class="form-group">
+            <label>CEP</label>
+            <input [(ngModel)]="formulario.enderecoCEP" placeholder="Ex: 80000-001" />
+          </div>
+          <div class="form-group">
+            <label>Cidade</label>
+            <input [(ngModel)]="formulario.enderecoCidade" placeholder="Ex: Curitiba" />
+          </div>
+          <div class="form-group">
+            <label>Estado</label>
+            <input [(ngModel)]="formulario.enderecoEstado" placeholder="Ex: PR" maxlength="2" />
+          </div>
+        </div>
+        <div class="form-acoes">
+          <button class="btn-salvar" (click)="salvar()">
+            {{ editando ? 'Atualizar' : 'Salvar' }}
+          </button>
+          <button class="btn-cancelar" (click)="mostrarFormulario = false">Cancelar</button>
+        </div>
+      </div>
+    }
 
     @if (carregando) {
       <div class="carregando">Carregando...</div>
@@ -34,7 +102,7 @@
             <th>Email</th>
             <th>Telefone</th>
             <th>Role</th>
-             <th>Ações</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -49,11 +117,10 @@
                   {{ usuario.role }}
                 </span>
               </td>
-              <td>
-              <button class="btn-deletar" (click)="deletar(usuario.idUsuario)">
-                Deletar
-              </button>
-            </td>
+              <td class="acoes">
+                <button class="btn-editar" (click)="editar(usuario)">Editar</button>
+                <button class="btn-deletar" (click)="deletar(usuario.idUsuario)">Deletar</button>
+              </td>
             </tr>
           }
         </tbody>

@@ -66,6 +66,9 @@
 }
 
 .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 3rem;
   border-left: 3px solid #8b0000;
   padding-left: 1.5rem;
@@ -84,6 +87,25 @@
     font-size: 0.7rem;
     letter-spacing: 4px;
     text-transform: uppercase;
+  }
+}
+
+.btn-novo {
+  background: transparent;
+  border: 1px solid #8b0000;
+  color: #cc3333;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    background: #8b0000;
+    color: white;
   }
 }
 
@@ -127,6 +149,117 @@
       font-size: 0.9rem;
       color: #ccc;
     }
+  }
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 0.4rem;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: #1a1a1a;
+    border: 1px solid #222;
+    border-radius: 2px;
+    color: white;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #8b0000;
+    }
+
+    option { background: #1a1a1a; }
+  }
+}
+
+.formulario {
+  background: #0f0f0f;
+  border: 1px solid #1a1a1a;
+  border-left: 3px solid #8b0000;
+  border-radius: 2px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  h3 {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: white;
+    margin: 0 0 1.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+.form-acoes {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-salvar {
+  background: #8b0000;
+  border: none;
+  color: white;
+  padding: 0.7rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: background 0.2s;
+
+  &:hover { background: #a00000; }
+}
+
+.btn-cancelar {
+  background: transparent;
+  border: 1px solid #333;
+  color: #666;
+  padding: 0.7rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+  &:hover { border-color: #555; color: #888; }
+}
+
+.acoes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-editar {
+  background: transparent;
+  border: 1px solid #1a3a5c;
+  color: #4a90d9;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #1a3a5c;
+    color: white;
   }
 }
 

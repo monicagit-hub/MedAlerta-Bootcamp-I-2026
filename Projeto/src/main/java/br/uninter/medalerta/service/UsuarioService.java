@@ -26,6 +26,22 @@ public class UsuarioService {
     return repository.save(usuario);
     }
 
+    public Usuario atualizar(Integer id, Usuario usuario) {
+        Usuario existente = buscarPorId(id);
+        existente.setNome(usuario.getNome());
+        existente.setTelefone(usuario.getTelefone());
+        existente.setEmail(usuario.getEmail());
+        existente.setEnderecoRua(usuario.getEnderecoRua());
+        existente.setEnderecoNumero(usuario.getEnderecoNumero());
+        existente.setEnderecoComplemento(usuario.getEnderecoComplemento());
+        existente.setEnderecoBairro(usuario.getEnderecoBairro());
+        existente.setEnderecoCEP(usuario.getEnderecoCEP());
+        existente.setEnderecoCidade(usuario.getEnderecoCidade());
+        existente.setEnderecoEstado(usuario.getEnderecoEstado());
+        existente.setRole(usuario.getRole());
+        return repository.save(existente);
+    }
+
     public void deletar(Integer id) {
     buscarPorId(id); // verifica se existe antes de deletar
     repository.deleteById(id);
