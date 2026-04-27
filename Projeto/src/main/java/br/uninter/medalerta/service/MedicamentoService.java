@@ -26,6 +26,16 @@ public class MedicamentoService {
         return repository.save(medicamento);
     }
 
+    public Medicamento atualizar(Integer id, Medicamento medicamento) {
+        Medicamento existente = buscarPorId(id);
+        existente.setNomeComercial(medicamento.getNomeComercial());
+        existente.setNomeGenerico(medicamento.getNomeGenerico());
+        existente.setFormaUso(medicamento.getFormaUso());
+        existente.setObservacao(medicamento.getObservacao());
+        existente.setQuantidade(medicamento.getQuantidade());
+        return repository.save(existente);
+    }
+
     public void deletar(Integer id) {
         buscarPorId(id);
         repository.deleteById(id);

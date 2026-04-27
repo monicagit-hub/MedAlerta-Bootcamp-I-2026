@@ -1,0 +1,103 @@
+<div class="medicamentos-container">
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <span>⚕️ MedAlerta</span>
+    </div>
+    <div class="navbar-menu">
+      <a routerLink="/dashboard">Dashboard</a>
+      <button (click)="logout()">Sair</button>
+    </div>
+  </nav>
+
+  <main class="medicamentos-content">
+
+    <div class="page-header">
+      <div>
+        <h2>Medicamentos</h2>
+        <p>GERENCIAMENTO DE MEDICAMENTOS</p>
+      </div>
+      <button class="btn-novo" (click)="abrirFormulario()">
+        {{ mostrarFormulario ? 'Cancelar' : '+ Novo' }}
+      </button>
+    </div>
+
+    @if (mostrarFormulario) {
+      <div class="formulario">
+        <h3>{{ editando ? 'Editar Medicamento' : 'Novo Medicamento' }}</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nome Comercial *</label>
+            <input [(ngModel)]="formulario.nomeComercial" placeholder="Ex: Tylenol" />
+          </div>
+          <div class="form-group">
+            <label>Nome Genérico</label>
+            <input [(ngModel)]="formulario.nomeGenerico" placeholder="Ex: Paracetamol" />
+          </div>
+          <div class="form-group">
+            <label>Forma de Uso</label>
+            <input [(ngModel)]="formulario.formaUso" placeholder="Ex: Via oral" />
+          </div>
+          <div class="form-group">
+            <label>Quantidade</label>
+            <select [(ngModel)]="formulario.quantidade">
+              <option value="">Selecione</option>
+              <option value="unidade">Unidade</option>
+              <option value="ml">ml</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label>Observação</label>
+            <input [(ngModel)]="formulario.observacao" placeholder="Ex: Não exceder a dose" />
+          </div>
+        </div>
+        <div class="form-acoes">
+          <button class="btn-salvar" (click)="salvar()">
+            {{ editando ? 'Atualizar' : 'Salvar' }}
+          </button>
+          <button class="btn-cancelar" (click)="mostrarFormulario = false">Cancelar</button>
+        </div>
+      </div>
+    }
+
+    @if (carregando) {
+      <div class="carregando">Carregando...</div>
+    }
+
+    @if (!carregando && medicamentos.length === 0) {
+      <div class="vazio">Nenhum medicamento encontrado.</div>
+    }
+
+    @if (!carregando && medicamentos.length > 0) {
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome Comercial</th>
+            <th>Nome Genérico</th>
+            <th>Forma de Uso</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (med of medicamentos; track med.idMedicamento) {
+            <tr>
+              <td>{{ med.idMedicamento }}</td>
+              <td>{{ med.nomeComercial }}</td>
+              <td>{{ med.nomeGenerico }}</td>
+              <td>{{ med.formaUso }}</td>
+              <td>{{ med.quantidade }}</td>
+              <td class="acoes">
+                <button class="btn-editar" (click)="editar(med)">Editar</button>
+                <button class="btn-deletar" (click)="deletar(med.idMedicamento)">Deletar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </main>
+
+</div>

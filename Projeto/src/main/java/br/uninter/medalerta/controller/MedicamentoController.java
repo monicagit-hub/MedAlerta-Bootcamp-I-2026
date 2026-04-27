@@ -31,6 +31,11 @@ public class MedicamentoController {
     public ResponseEntity<Medicamento> salvar(@Valid @RequestBody Medicamento medicamento) {
         return ResponseEntity.ok(medicamentoService.salvar(medicamento));
     }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Medicamento> atualizar(@PathVariable Integer id, @RequestBody Medicamento medicamento) {
+        return ResponseEntity.ok(medicamentoService.atualizar(id, medicamento));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
