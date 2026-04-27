@@ -130,6 +130,24 @@
   }
 }
 
+.btn-deletar {
+  background: transparent;
+  border: 1px solid #8b0000;
+  color: #cc3333;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #8b0000;
+    color: white;
+  }
+}
+
 .badge {
   padding: 0.3rem 0.8rem;
   border-radius: 2px;

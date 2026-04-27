@@ -32,6 +32,19 @@ export class Usuarios implements OnInit {
     });
   }
 
+  deletar(id: number) {
+  if (confirm('Tem certeza que deseja deletar este usuário?')) {
+    this.usuarioService.deletar(id).subscribe({
+      next: () => {
+        this.usuarios = this.usuarios.filter(u => u.idUsuario !== id);
+      },
+      error: () => {
+        alert('Erro ao deletar usuário!');
+      }
+    });
+  }
+}
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);

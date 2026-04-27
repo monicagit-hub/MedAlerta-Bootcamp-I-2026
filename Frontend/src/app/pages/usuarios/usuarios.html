@@ -34,6 +34,7 @@
             <th>Email</th>
             <th>Telefone</th>
             <th>Role</th>
+             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -48,6 +49,11 @@
                   {{ usuario.role }}
                 </span>
               </td>
+              <td>
+              <button class="btn-deletar" (click)="deletar(usuario.idUsuario)">
+                Deletar
+              </button>
+            </td>
             </tr>
           }
         </tbody>
