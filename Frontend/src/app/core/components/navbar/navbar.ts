@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../core/services/auth';
-import { Navbar } from '../../core/components/navbar/navbar';
+import { AuthService } from '../../services/auth';
 
 @Component({
-  selector: 'app-dashboard',
-  imports: [RouterLink, Navbar],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss'
+  selector: 'app-navbar',
+  imports: [RouterLink],
+  templateUrl: './navbar.html',
+  styleUrl: './navbar.scss'
 })
-export class Dashboard implements OnInit {
+export class Navbar implements OnInit {
 
   usuario: any = null;
 
@@ -21,7 +20,7 @@ export class Dashboard implements OnInit {
   ngOnInit() {
     this.authService.me().subscribe({
       next: (dados) => this.usuario = dados,
-      error: () => this.logout()
+      error: () => {}
     });
   }
 

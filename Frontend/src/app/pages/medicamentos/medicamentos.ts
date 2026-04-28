@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MedicamentoService } from '../../core/services/medicamento';
-import { AuthService } from '../../core/services/auth';
+import { Navbar } from '../../core/components/navbar/navbar';
+
 
 @Component({
   selector: 'app-medicamentos',
-  imports: [RouterLink, FormsModule],
+  imports: [FormsModule, Navbar],
   templateUrl: './medicamentos.html',
   styleUrl: './medicamentos.scss'
 })
@@ -28,8 +28,6 @@ export class Medicamentos implements OnInit {
 
   constructor(
     private medicamentoService: MedicamentoService,
-    private authService: AuthService,
-    private router: Router
   ) {}
 
   ngOnInit() {
@@ -96,10 +94,4 @@ export class Medicamentos implements OnInit {
       });
     }
   }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
 }

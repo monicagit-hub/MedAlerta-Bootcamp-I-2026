@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UsuarioService } from '../../core/services/usuario';
 import { AuthService } from '../../core/services/auth';
+import { Navbar } from '../../core/components/navbar/navbar';
+
 
 @Component({
   selector: 'app-usuarios',
-  imports: [RouterLink, FormsModule],
+  imports: [FormsModule,Navbar],
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.scss'
 })
@@ -36,7 +37,6 @@ export class Usuarios implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     private authService: AuthService,
-    private router: Router
   ) {}
 
   ngOnInit() {
@@ -123,10 +123,4 @@ export class Usuarios implements OnInit {
       });
     }
   }
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
 }

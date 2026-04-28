@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a routerLink="/dashboard">
+      <span>⚕️ MedAlerta</span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/usuarios">Usuários</a>
+    <a routerLink="/medicamentos">Medicamentos</a>
+    @if (usuario) {
+      <span class="usuario-info">{{ usuario.nome }}</span>
+    }
+    <button (click)="logout()">Sair</button>
+  </div>
+</nav>
