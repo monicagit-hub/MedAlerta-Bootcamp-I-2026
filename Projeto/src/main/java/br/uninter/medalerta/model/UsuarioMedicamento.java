@@ -3,6 +3,8 @@ package br.uninter.medalerta.model;
 import jakarta.persistence.*;
 import java.util.List;
 import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -29,6 +31,7 @@ public class UsuarioMedicamento {
     @Column(nullable = false, length = 100)
      private String formaUso;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuarioMedicamento", cascade = CascadeType.ALL)
     private List<Horario> horarios;
 

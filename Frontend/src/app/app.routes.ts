@@ -5,6 +5,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Usuarios } from './pages/usuarios/usuarios';
 import { Medicamentos } from './pages/medicamentos/medicamentos';
 import { Vinculos } from './pages/vinculos/vinculos';
+import { Horarios } from './pages/horarios/horarios';
 
 
 export const routes: Routes = [
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'usuarios', component: Usuarios, canActivate: [authGuard] },
   { path: 'medicamentos', component: Medicamentos, canActivate: [authGuard] },
   { path: 'vinculos', component: Vinculos, canActivate: [authGuard] },
+  { path: 'horarios', component: Horarios, canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' }
 ];

@@ -53,7 +53,6 @@ public class SecurityConfig {
                 .requestMatchers("/usuarios/{id}").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated())
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 

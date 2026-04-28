@@ -3,6 +3,9 @@ package br.uninter.medalerta.model;
 import jakarta.persistence.*;
 import java.time.LocalTime;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.validation.constraints.NotNull;
 
 
@@ -13,6 +16,7 @@ public class Horario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idHorario;
+
 
     @ManyToOne
     @JoinColumn(name = "idUsuarioMedicamento", nullable = false)
@@ -25,6 +29,7 @@ public class Horario {
     @Column(length = 50)
     private String frequenciaUso;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "horario", cascade = CascadeType.ALL)
     private List<Alerta> alertas;
 
