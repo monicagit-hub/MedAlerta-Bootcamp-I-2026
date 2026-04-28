@@ -1,0 +1,96 @@
+<div class="vinculos-container">
+
+  <app-navbar />
+
+  <main class="vinculos-content">
+
+    <div class="page-header">
+      <div>
+        <h2>Vínculos</h2>
+        <p>PACIENTES E MEDICAMENTOS</p>
+      </div>
+      <button class="btn-novo" (click)="mostrarFormulario = !mostrarFormulario">
+        {{ mostrarFormulario ? 'Cancelar' : '+ Novo' }}
+      </button>
+    </div>
+
+    @if (mostrarFormulario) {
+      <div class="formulario">
+        <h3>Novo Vínculo</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Paciente *</label>
+            <select [(ngModel)]="formulario.idUsuario">
+              <option value="">Selecione</option>
+              @for (usuario of usuarios; track usuario.idUsuario) {
+                <option [value]="usuario.idUsuario">{{ usuario.nome }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Medicamento *</label>
+            <select [(ngModel)]="formulario.idMedicamento">
+              <option value="">Selecione</option>
+              @for (med of medicamentos; track med.idMedicamento) {
+                <option [value]="med.idMedicamento">{{ med.nomeComercial }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dosagem *</label>
+            <input [(ngModel)]="formulario.dosagem" placeholder="Ex: 1 comprimido" />
+          </div>
+          <div class="form-group">
+            <label>Forma de Uso *</label>
+            <input [(ngModel)]="formulario.formaUso" placeholder="Ex: Via oral" />
+          </div>
+        </div>
+        <div class="form-acoes">
+          <button class="btn-salvar" (click)="salvar()">Salvar</button>
+          <button class="btn-cancelar" (click)="mostrarFormulario = false">Cancelar</button>
+        </div>
+      </div>
+    }
+
+    @if (carregando) {
+      <div class="carregando">Carregando...</div>
+    }
+
+    @if (!carregando && vinculos.length === 0) {
+      <div class="vazio">Nenhum vínculo encontrado.</div>
+    }
+
+    @if (!carregando && vinculos.length > 0) {
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Paciente</th>
+            <th>Medicamento</th>
+            <th>Dosagem</th>
+            <th>Forma de Uso</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (vinculo of vinculos; track vinculo.idUsuarioMedicamento) {
+            <tr>
+              <td>{{ vinculo.idUsuarioMedicamento }}</td>
+              <td>{{ vinculo.usuario?.nome }}</td>
+              <td>{{ vinculo.medicamento?.nomeComercial }}</td>
+              <td>{{ vinculo.dosagem }}</td>
+              <td>{{ vinculo.formaUso }}</td>
+              <td>
+                <button class="btn-deletar" (click)="deletar(vinculo.idUsuarioMedicamento)">
+                  Deletar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </main>
+
+</div>

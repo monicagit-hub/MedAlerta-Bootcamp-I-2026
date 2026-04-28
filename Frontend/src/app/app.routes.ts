@@ -4,6 +4,8 @@ import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Usuarios } from './pages/usuarios/usuarios';
 import { Medicamentos } from './pages/medicamentos/medicamentos';
+import { Vinculos } from './pages/vinculos/vinculos';
+
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -11,5 +13,6 @@ export const routes: Routes = [
   { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
   { path: 'usuarios', component: Usuarios, canActivate: [authGuard] },
   { path: 'medicamentos', component: Medicamentos, canActivate: [authGuard] },
+  { path: 'vinculos', component: Vinculos, canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' }
 ];
