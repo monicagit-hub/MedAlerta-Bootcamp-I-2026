@@ -1,6 +1,6 @@
 # 🚀 Evolução do Projeto — Além do Bootcamp
 
-> Este documento registra a evolução pessoal do projeto MedAlerta após o Bootcamp I 2026, por iniciativa própria, com o objetivo de aplicar boas práticas de mercado e aprofundar conhecimentos em desenvolvimento backend.
+> Este documento registra a evolução pessoal do projeto MedAlerta após o Bootcamp I 2026, por iniciativa própria, com o objetivo de aplicar boas práticas de mercado e aprofundar conhecimentos em desenvolvimento fullstack.
 
 ---
 
@@ -8,31 +8,30 @@
 
 O projeto entregue no bootcamp funcionava como um **console app** — um menu interativo no terminal. Apesar de funcional e didático, não representa o que é usado no mercado de trabalho.
 
-A decisão foi evoluir o projeto para uma **API REST profissional**, mantendo toda a base construída (Models, Repositories e Services) e adicionando novas camadas e boas práticas.
+A decisão foi evoluir o projeto para uma **aplicação fullstack profissional**, mantendo toda a base construída (Models, Repositories e Services) e adicionando novas camadas e boas práticas.
 
-
+---
 
 > 📋 Para ver o projeto base do bootcamp, acesse o [README principal](/README.md)
-
 
 ---
 
 ## 🔄 O que mudou
 
-### Console App → API REST
+### Console App → Aplicação Fullstack
 
 | Antes (Bootcamp) | Depois (Evolução) |
 |-----------------|-------------------|
-| Menu no terminal | Endpoints HTTP |
-| Usuário digita no console | Requisições JSON via Postman |
-| `App.java` com `CommandLineRunner` | Controllers REST com `@RestController` |
-| Sem Tomcat | Tomcat embutido na porta 8080 |
+| Menu no terminal | Interface web Angular |
+| Usuário digita no console | Formulários e tabelas na tela |
+| `App.java` com `CommandLineRunner` | Controllers REST + Angular |
 | Sem autenticação | JWT com roles ADMIN e USER |
 | Sem testes automatizados | 33 testes unitários e de integração |
+| Sem documentação | Swagger UI completo |
 
 ---
 
-## 📦 O que foi adicionado
+## 📦 Backend — O que foi adicionado
 
 ### 1. Controllers REST (6 controllers)
 
@@ -54,12 +53,6 @@ exception/
 └── GlobalExceptionHandler.java ← intercepta exceções
 ```
 
-Retorno padronizado para erros:
-```json
-{ "status": 404, "mensagem": "Usuário não encontrado! ID: 999" }
-{ "status": 400, "mensagem": "[nome: Nome é obrigatório]" }
-```
-
 ### 3. Validações com Bean Validation
 
 | Entidade | Campo | Anotação |
@@ -75,18 +68,9 @@ Retorno padronizado para erros:
 
 Acesse em: `http://localhost:8080/swagger-ui/index.html`
 
-```xml
-<dependency>
-    <groupId>org.springdoc</groupId>
-    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    <version>2.8.6</version>
-</dependency>
-```
-
 ### 5. Testes automatizados (33 testes)
 
-**Testes unitários (Services)** — usam `@Mock` para simular o banco:
-
+**Testes unitários (Services):**
 ```
 UsuarioServiceTest             → 3 testes
 MedicamentoServiceTest         → 3 testes
@@ -96,120 +80,112 @@ AlertaServiceTest              → 3 testes
 RegistroServiceTest            → 3 testes
 ```
 
-**Testes de integração (Controllers)** — usam `MockMvc` para simular requisições HTTP:
-
+**Testes de integração (Controllers):**
 ```
-UsuarioControllerTest          → 3 testes
-MedicamentoControllerTest      → 3 testes
+UsuarioControllerTest            → 3 testes
+MedicamentoControllerTest        → 3 testes
 UsuarioMedicamentoControllerTest → 2 testes
-HorarioControllerTest          → 2 testes
-AlertaControllerTest           → 2 testes
-RegistroControllerTest         → 2 testes
-MedalertaApplicationTests      → 1 teste
-                                = 33 testes ✅
-```
-
-Rodar todos os testes:
-```bash
-docker compose exec app mvn test
+HorarioControllerTest            → 2 testes
+AlertaControllerTest             → 2 testes
+RegistroControllerTest           → 2 testes
+MedalertaApplicationTests        → 1 teste
+                                  = 33 testes ✅
 ```
 
 ### 6. Segurança com JWT + Spring Security
 
 ```
 security/
-├── JwtUtil.java               ← gera e valida tokens
-├── JwtFilter.java             ← intercepta requisições
-├── UsuarioDetalhes.java       ← adapta Usuario para Spring Security
+├── JwtUtil.java                ← gera e valida tokens
+├── JwtFilter.java              ← intercepta requisições
+├── UsuarioDetalhes.java        ← adapta Usuario para Spring Security
 ├── UsuarioDetalhesService.java ← carrega usuário por email
-├── SecurityConfig.java        ← configura regras de acesso
-└── AuthController.java        ← endpoints de autenticação
+├── SecurityConfig.java         ← configura regras de acesso
+└── AuthController.java         ← endpoints de autenticação
 ```
-
-**Roles implementadas:**
 
 | Role | Acesso |
 |------|--------|
 | `ADMIN` | Acessa todos os endpoints |
-| `USER` | Acessa só `/auth/me` e seus próprios dados |
-
-**Campos adicionados no `Usuario`:**
-- `senha` — armazenada com `BCryptPasswordEncoder` (nunca em texto puro)
-- `role` — `USER` (padrão) ou `ADMIN`
+| `USER` | Acessa só seus próprios dados |
 
 ---
 
-## 🌐 Endpoints disponíveis
+## 🌐 Frontend — Angular 19
 
-### Autenticação (públicos — sem token)
+### Estrutura
 
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/auth/registro` | Cadastrar novo usuário |
-| POST | `/auth/login` | Fazer login e receber token JWT |
-| GET | `/auth/me` | Ver dados do usuário logado |
+```
+Frontend/src/app/
+├── core/
+│   ├── components/navbar/   ← navbar compartilhada
+│   ├── services/            ← auth, usuario, medicamento...
+│   ├── interceptors/        ← adiciona token JWT automaticamente
+│   └── guards/              ← protege rotas autenticadas
+└── pages/
+    ├── login/               ← tela de login estilo Grey's Anatomy
+    ├── dashboard/           ← painel principal
+    ├── usuarios/            ← CRUD de usuários
+    ├── medicamentos/        ← CRUD de medicamentos
+    ├── vinculos/            ← vínculo paciente-medicamento
+    ├── horarios/            ← horários de medicamentos
+    ├── alertas/             ← alertas de consumo
+    └── registros/           ← confirmação de consumo
+```
 
-### Usuários (protegidos)
+### Páginas implementadas
 
-| Método | Endpoint | Acesso | Descrição |
-|--------|----------|--------|-----------|
-| GET | `/usuarios` | ADMIN | Listar todos |
-| GET | `/usuarios/{id}` | ADMIN, USER | Buscar por ID |
-| POST | `/usuarios` | ADMIN | Cadastrar |
-| DELETE | `/usuarios/{id}` | ADMIN | Deletar |
+| Página | Funcionalidades |
+|--------|----------------|
+| Login | Autenticação JWT, estilo Grey's Anatomy com Seattle |
+| Dashboard | Cards de navegação, boas-vindas com dados do usuário |
+| Usuários | Listar, cadastrar, editar, deletar |
+| Medicamentos | Listar, cadastrar, editar, deletar |
+| Vínculos | Listar, cadastrar, deletar |
+| Horários | Listar, cadastrar, deletar |
+| Alertas | Listar, cadastrar, deletar |
+| Registros | Listar, cadastrar, deletar |
 
-### Demais recursos (autenticados)
+### Tecnologias utilizadas
 
-| Método | Endpoint |
-|--------|----------|
-| GET/POST/DELETE | `/medicamentos` |
-| GET/POST/DELETE | `/vinculos` |
-| GET/POST/DELETE | `/horarios` |
-| GET/POST/DELETE | `/alertas` |
-| GET/POST/DELETE | `/registros` |
+- Angular 19 com componentes standalone
+- TypeScript
+- JWT via localStorage + interceptor HTTP
+- Guards de rota para autenticação
 
 ---
 
-## 🧪 Como testar
+## 🧪 Como rodar o projeto
 
-### 1. Subir o projeto
+### Backend
 
 ```bash
+cd Projeto
 docker compose up -d
 docker compose exec app mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-### 2. Registrar usuário admin
+### Frontend
+
+```bash
+cd Frontend
+ng serve
+```
+
+Acesse: `http://localhost:4200`
+
+### Primeiro acesso
 
 ```json
 POST http://localhost:8080/auth/registro
 {
-    "nome": "Monica",
-    "telefone": "47984964545",
-    "email": "monica@email.com",
+    "nome": "Admin",
+    "telefone": "47999990001",
+    "email": "admin@email.com",
     "senha": "123456",
     "role": "ADMIN"
 }
 ```
-
-### 3. Fazer login e pegar token
-
-```json
-POST http://localhost:8080/auth/login
-{
-    "email": "monica@email.com",
-    "senha": "123456"
-}
-```
-
-Resposta:
-```json
-{ "token": "eyJhbGciOiJIUzI1NiJ9..." }
-```
-
-### 4. Usar o token nas requisições
-
-No Postman: **Authorization → Bearer Token → colar o token**
 
 ---
 
@@ -223,26 +199,45 @@ No Postman: **Authorization → Bearer Token → colar o token**
 | 4 | Testes automatizados (33 testes) | ✅ Concluído |
 | 5 | Segurança com Spring Security + JWT | ✅ Concluído |
 | 6 | Roles ADMIN e USER | ✅ Concluído |
-| 7 | Frontend com Angular | ⬜ Próximo |
+| 7 | Frontend com Angular 19 | ✅ Concluído |
+| 8 | Scheduler automático de alertas | ⬜ Próximo |
+| 9 | Tela de alertas pendentes com confirmação | ⬜ Próximo |
+| 10 | Notificações em tempo real | ⬜ Futuro |
+| 11 | Deploy em produção | ⬜ Futuro |
 
----
+### Detalhes do próximo passo — Scheduler automático
 
-## 📚 Aprendizados
+O fluxo atual exige que o usuário crie alertas e registros manualmente. O objetivo é automatizar:
 
-- Arquitetura em camadas permite evoluir sem reescrever tudo
-- `@RestController` substitui o `App.java` como ponto de entrada
-- `spring-boot-starter-web` traz o Tomcat embutido e suporte HTTP
-- `@Mock` e `MockMvc` permitem testar sem banco de dados real
-- JWT autentica sem guardar sessão no servidor (stateless)
-- `BCryptPasswordEncoder` garante que senhas nunca ficam em texto puro
-- `@JsonIgnore` protege campos sensíveis no retorno da API
-- Roles (`ADMIN`/`USER`) controlam o que cada perfil pode acessar
+```
+CONFIGURAÇÃO (feita uma vez):
+Usuário → Medicamento → Vínculo → Horário
+
+EXECUÇÃO (automática):
+Horário 08:00 chega
+    ↓
+@Scheduled verifica horários e gera Alerta
+    ↓
+Usuário vê alerta pendente na tela
+    ↓
+Clica "Tomei" ou "Não tomei"
+    ↓
+Registro salvo automaticamente
+```
+
+**O que será implementado:**
+- `@Scheduled` no backend rodando a cada minuto
+- Endpoint `GET /alertas/pendentes` para o usuário logado
+- Tela de alertas do dia com botão de confirmação
+- Remoção dos formulários manuais de alerta e registro
 
 ---
 
 ## 🔗 Links úteis
 
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
+- Frontend: `http://localhost:4200`
+
 ---
 
 *Evolução pessoal — Abril 2026*
