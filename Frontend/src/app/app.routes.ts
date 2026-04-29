@@ -7,6 +7,8 @@ import { Medicamentos } from './pages/medicamentos/medicamentos';
 import { Vinculos } from './pages/vinculos/vinculos';
 import { Horarios } from './pages/horarios/horarios';
 import { Alertas } from './pages/alertas/alertas';
+import { Registros } from './pages/registros/registros';
+
 
 
 
@@ -19,5 +21,6 @@ export const routes: Routes = [
   { path: 'vinculos', component: Vinculos, canActivate: [authGuard] },
   { path: 'horarios', component: Horarios, canActivate: [authGuard] },
   { path: 'alertas', component: Alertas, canActivate: [authGuard] },
+  { path: 'registros', component: Registros, canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' }
 ];

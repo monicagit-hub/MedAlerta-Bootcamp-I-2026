@@ -2,6 +2,9 @@ package br.uninter.medalerta.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -27,7 +30,7 @@ public class Alerta {
     public enum StatusAlertaEnum {
     emitido, confirmado, cancelado, nao_emitido
 }
-
+    @JsonIgnore
     @OneToOne(mappedBy = "alerta", cascade = CascadeType.ALL)
     private Registro registro;
 

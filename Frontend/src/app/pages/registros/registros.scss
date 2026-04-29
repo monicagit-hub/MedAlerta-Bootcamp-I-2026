@@ -1,0 +1,220 @@
+.registros-container {
+  min-height: 100vh;
+  background: #080808;
+  color: white;
+}
+
+.registros-content {
+  padding: 4rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  border-left: 3px solid #8b0000;
+  padding-left: 1.5rem;
+
+  h2 {
+    font-family: 'Georgia', serif;
+    font-size: 2.5rem;
+    font-style: italic;
+    color: white;
+    margin: 0;
+  }
+
+  p {
+    color: #555;
+    margin: 0.5rem 0 0;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+}
+
+.btn-novo {
+  background: transparent;
+  border: 1px solid #8b0000;
+  color: #cc3333;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  white-space: nowrap;
+
+  &:hover {
+    background: #8b0000;
+    color: white;
+  }
+}
+
+.formulario {
+  background: #0f0f0f;
+  border: 1px solid #1a1a1a;
+  border-left: 3px solid #8b0000;
+  border-radius: 2px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+
+  h3 {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: white;
+    margin: 0 0 1.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 0.4rem;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: #1a1a1a;
+    border: 1px solid #222;
+    border-radius: 2px;
+    color: white;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #8b0000;
+    }
+
+    option { background: #1a1a1a; }
+  }
+}
+
+.form-acoes {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-salvar {
+  background: #8b0000;
+  border: none;
+  color: white;
+  padding: 0.7rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: background 0.2s;
+
+  &:hover { background: #a00000; }
+}
+
+.btn-cancelar {
+  background: transparent;
+  border: 1px solid #333;
+  color: #666;
+  padding: 0.7rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+  &:hover { border-color: #555; color: #888; }
+}
+
+.carregando, .vazio {
+  color: #555;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 3rem;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    border-bottom: 1px solid #8b0000;
+
+    th {
+      text-align: left;
+      padding: 1rem 1.2rem;
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #555;
+      font-weight: normal;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #111;
+    transition: background 0.2s;
+
+    &:hover { background: #0f0f0f; }
+
+    td {
+      padding: 1.2rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+  }
+}
+
+.badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: rgba(50, 50, 50, 0.2);
+  color: #666;
+  border: 1px solid #333;
+
+  &.sim {
+    background: rgba(0, 100, 0, 0.2);
+    color: #4caf50;
+    border-color: #2e7d32;
+  }
+}
+
+.btn-deletar {
+  background: transparent;
+  border: 1px solid #8b0000;
+  color: #cc3333;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #8b0000;
+    color: white;
+  }
+}
