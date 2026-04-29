@@ -6,6 +6,8 @@ import { Usuarios } from './pages/usuarios/usuarios';
 import { Medicamentos } from './pages/medicamentos/medicamentos';
 import { Vinculos } from './pages/vinculos/vinculos';
 import { Horarios } from './pages/horarios/horarios';
+import { Alertas } from './pages/alertas/alertas';
+
 
 
 export const routes: Routes = [
@@ -16,5 +18,6 @@ export const routes: Routes = [
   { path: 'medicamentos', component: Medicamentos, canActivate: [authGuard] },
   { path: 'vinculos', component: Vinculos, canActivate: [authGuard] },
   { path: 'horarios', component: Horarios, canActivate: [authGuard] },
+  { path: 'alertas', component: Alertas, canActivate: [authGuard] },
   { path: '**', redirectTo: 'login' }
 ];

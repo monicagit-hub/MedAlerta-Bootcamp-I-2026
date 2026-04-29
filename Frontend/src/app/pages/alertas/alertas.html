@@ -1,0 +1,101 @@
+<div class="alertas-container">
+
+  <app-navbar />
+
+  <main class="alertas-content">
+
+    <div class="page-header">
+      <div>
+        <h2>Alertas</h2>
+        <p>ALERTAS DE MEDICAMENTOS</p>
+      </div>
+      <button class="btn-novo" (click)="mostrarFormulario = !mostrarFormulario">
+        {{ mostrarFormulario ? 'Cancelar' : '+ Novo' }}
+      </button>
+    </div>
+
+    @if (mostrarFormulario) {
+      <div class="formulario">
+        <h3>Novo Alerta</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Horário *</label>
+            <select [(ngModel)]="formulario.idHorario">
+              <option value="">Selecione</option>
+              @for (horario of horarios; track horario.idHorario) {
+                <option [value]="horario.idHorario">
+                  {{ horario.usuarioMedicamento?.usuario?.nome }} —
+                  {{ horario.usuarioMedicamento?.medicamento?.nomeComercial }} —
+                  {{ horario.horarioUso }}
+                </option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Data e Hora *</label>
+            <input type="datetime-local" [(ngModel)]="formulario.dataHorarioAlerta" />
+          </div>
+          <div class="form-group">
+            <label>Status *</label>
+          <select [(ngModel)]="formulario.statusAlerta">
+            <option value="emitido">Emitido</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="cancelado">Cancelado</option>
+            <option value="nao_emitido">Não Emitido</option>
+          </select>
+          </div>
+        </div>
+        <div class="form-acoes">
+          <button class="btn-salvar" (click)="salvar()">Salvar</button>
+          <button class="btn-cancelar" (click)="mostrarFormulario = false">Cancelar</button>
+        </div>
+      </div>
+    }
+
+    @if (carregando) {
+      <div class="carregando">Carregando...</div>
+    }
+
+    @if (!carregando && alertas.length === 0) {
+      <div class="vazio">Nenhum alerta encontrado.</div>
+    }
+
+    @if (!carregando && alertas.length > 0) {
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Paciente</th>
+            <th>Medicamento</th>
+            <th>Data e Hora</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (alerta of alertas; track alerta.idAlerta) {
+            <tr>
+              <td>{{ alerta.idAlerta }}</td>
+              <td>{{ alerta.horario?.usuarioMedicamento?.usuario?.nome }}</td>
+              <td>{{ alerta.horario?.usuarioMedicamento?.medicamento?.nomeComercial }}</td>
+              <td>{{ alerta.dataHorarioAlerta }}</td>
+              <td>
+                <span class="badge" [class.confirmado]="alerta.statusAlerta === 'confirmado'"
+                                    [class.cancelado]="alerta.statusAlerta === 'cancelado'">
+                  {{ alerta.statusAlerta }}
+                </span>
+              </td>
+              <td>
+                <button class="btn-deletar" (click)="deletar(alerta.idAlerta)">
+                  Deletar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
+  </main>
+
+</div>

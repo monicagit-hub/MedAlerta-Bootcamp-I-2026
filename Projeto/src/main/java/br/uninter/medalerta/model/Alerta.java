@@ -25,8 +25,8 @@ public class Alerta {
     private StatusAlertaEnum statusAlerta;
 
     public enum StatusAlertaEnum {
-    emitido, nao_emitido
-    }
+    emitido, confirmado, cancelado, nao_emitido
+}
 
     @OneToOne(mappedBy = "alerta", cascade = CascadeType.ALL)
     private Registro registro;
