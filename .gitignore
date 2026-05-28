@@ -1,0 +1,59 @@
+# ===========================
+# Segurança — NUNCA versionar
+# ===========================
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
+# ===========================
+# Sistema Operacional
+# ===========================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+
+# ===========================
+# IDEs e Editores
+# ===========================
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/
+
+# ===========================
+# Logs
+# ===========================
+*.log
+logs/
+
+# ===========================
+# Arquivos temporários
+# ===========================
+*.tmp
+*.swp
+*.swo
