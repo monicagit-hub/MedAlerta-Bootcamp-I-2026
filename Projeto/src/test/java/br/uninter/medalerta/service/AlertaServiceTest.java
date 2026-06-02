@@ -40,10 +40,10 @@ public class AlertaServiceTest {
         UsuarioMedicamento vinculo = new UsuarioMedicamento(usuario, medicamento, "1 comprimido");
         Horario horario = new Horario(vinculo, LocalTime.of(8, 0), "8 em 8 horas");
         Alerta alerta = new Alerta(horario, LocalDateTime.of(2026, 4, 15, 8, 0), Alerta.StatusAlertaEnum.emitido);
-        when(repository.findAll()).thenReturn(List.of(alerta));
+        when(repository.findByHorario_UsuarioMedicamento_Usuario_IdUsuario(1)).thenReturn(List.of(alerta));
 
         // Act
-        List<Alerta> resultado = alertaService.listarTodos();
+        List<Alerta> resultado = alertaService.listarPorUsuario(1);
 
         // Assert
         assertEquals(1, resultado.size());

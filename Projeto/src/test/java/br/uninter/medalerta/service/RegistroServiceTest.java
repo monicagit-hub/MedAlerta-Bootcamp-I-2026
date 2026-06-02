@@ -42,10 +42,10 @@ public class RegistroServiceTest {
         Horario horario = new Horario(vinculo, LocalTime.of(8, 0), "8 em 8 horas");
         Alerta alerta = new Alerta(horario, LocalDateTime.of(2026, 4, 15, 8, 0), Alerta.StatusAlertaEnum.emitido);
         Registro registro = new Registro(alerta, Registro.ConfirmacaoConsumoEnum.sim);
-        when(repository.findAll()).thenReturn(List.of(registro));
+        when(repository.findByAlerta_Horario_UsuarioMedicamento_Usuario_IdUsuario(1)).thenReturn(List.of(registro));
 
         // Act
-        List<Registro> resultado = registroService.listarTodos();
+        List<Registro> resultado = registroService.listarPorUsuario(1);
 
         // Assert
         assertEquals(1, resultado.size());

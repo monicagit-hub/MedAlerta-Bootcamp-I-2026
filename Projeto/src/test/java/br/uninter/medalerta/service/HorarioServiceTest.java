@@ -37,10 +37,10 @@ public class HorarioServiceTest {
         Medicamento medicamento = new Medicamento("Tylenol", "Paracetamol");
         UsuarioMedicamento vinculo = new UsuarioMedicamento(usuario, medicamento, "1 comprimido");
         Horario horario = new Horario(vinculo, LocalTime.of(8, 0), "8 em 8 horas");
-        when(repository.findAll()).thenReturn(List.of(horario));
+        when(repository.findByUsuarioMedicamento_Usuario_IdUsuario(1)).thenReturn(List.of(horario));
 
         // Act
-        List<Horario> resultado = horarioService.listarTodos();
+        List<Horario> resultado = horarioService.listarPorUsuario(1);
 
         // Assert
         assertEquals(1, resultado.size());

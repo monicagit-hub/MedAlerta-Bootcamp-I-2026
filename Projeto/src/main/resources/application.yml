@@ -14,7 +14,7 @@ server:
   port: ${SERVER_PORT:8080}
 
 jwt:
-  secret: ${JWT_SECRET}
+  secret: ${JWT_SECRET:medalerta-secret-key-2026-bootcamp-uninter}
   expiration: ${JWT_EXPIRATION:86400000}
 
 logging:

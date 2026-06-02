@@ -37,10 +37,10 @@ public class UsuarioMedicamentoServiceTest {
         Usuario usuario = new Usuario("Ana", "41999990001", "ana@email.com");
         Medicamento medicamento = new Medicamento("Tylenol", "Paracetamol");
         UsuarioMedicamento vinculo = new UsuarioMedicamento(usuario, medicamento, "1 comprimido");
-        when(repository.findAll()).thenReturn(List.of(vinculo));
+        when(repository.findByUsuario_IdUsuario(1)).thenReturn(List.of(vinculo));
 
         // Act
-        List<UsuarioMedicamento> resultado = usuarioMedicamentoService.listarTodos();
+        List<UsuarioMedicamento> resultado = usuarioMedicamentoService.listarPorUsuario(1);
 
         // Assert
         assertEquals(1, resultado.size());
