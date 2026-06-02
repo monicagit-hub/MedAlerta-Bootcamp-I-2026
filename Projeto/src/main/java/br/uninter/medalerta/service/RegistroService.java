@@ -17,8 +17,8 @@ public class RegistroService {
     @Autowired
     private AlertaService alertaService;
 
-    public List<Registro> listarTodos() {
-        return repository.findAll();
+    public List<Registro> listarPorUsuario(Integer idUsuario) {
+        return repository.findByAlerta_Horario_UsuarioMedicamento_Usuario_IdUsuario(idUsuario);
     }
 
     public Registro buscarPorId(Integer id) {

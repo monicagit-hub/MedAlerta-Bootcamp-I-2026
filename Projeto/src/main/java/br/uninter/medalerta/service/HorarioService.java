@@ -17,8 +17,8 @@ public class HorarioService {
     @Autowired
     private UsuarioMedicamentoService usuarioMedicamentoService;
 
-    public List<Horario> listarTodos() {
-        return repository.findAll();
+    public List<Horario> listarPorUsuario(Integer idUsuario) {
+        return repository.findByUsuarioMedicamento_Usuario_IdUsuario(idUsuario);
     }
 
     public Horario buscarPorId(Integer id) {

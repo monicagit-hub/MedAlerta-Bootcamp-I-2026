@@ -17,8 +17,8 @@ public class AlertaService {
     @Autowired
     private HorarioService horarioService;
 
-    public List<Alerta> listarTodos() {
-        return repository.findAll();
+    public List<Alerta> listarPorUsuario(Integer idUsuario) {
+        return repository.findByHorario_UsuarioMedicamento_Usuario_IdUsuario(idUsuario);
     }
 
     public Alerta buscarPorId(Integer id) {

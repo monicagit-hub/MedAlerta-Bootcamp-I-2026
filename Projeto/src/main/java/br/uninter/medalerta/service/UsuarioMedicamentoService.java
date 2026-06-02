@@ -19,8 +19,8 @@ public class UsuarioMedicamentoService {
     @Autowired
     private MedicamentoService medicamentoService;
 
-    public List<UsuarioMedicamento> listarTodos() {
-        return repository.findAll();
+    public List<UsuarioMedicamento> listarPorUsuario(Integer idUsuario) {
+        return repository.findByUsuario_IdUsuario(idUsuario);
     }
 
     public UsuarioMedicamento buscarPorId(Integer id) {
