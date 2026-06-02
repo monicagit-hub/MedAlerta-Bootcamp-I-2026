@@ -1,9 +1,11 @@
 package br.uninter.medalerta.controller;
 
 import br.uninter.medalerta.model.Alerta;
+import br.uninter.medalerta.security.UsuarioDetalhes;
 import br.uninter.medalerta.service.AlertaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,8 +19,8 @@ public class AlertaController {
     private AlertaService alertaService;
 
     @GetMapping
-    public List<Alerta> listarTodos() {
-        return alertaService.listarTodos();
+    public List<Alerta> listar(@AuthenticationPrincipal UsuarioDetalhes usuarioLogado) {
+        return alertaService.listarPorUsuario(usuarioLogado.getUsuario().getIdUsuario());
     }
 
     @GetMapping("/{id}")

@@ -1,9 +1,11 @@
 package br.uninter.medalerta.controller;
 
 import br.uninter.medalerta.model.UsuarioMedicamento;
+import br.uninter.medalerta.security.UsuarioDetalhes;
 import br.uninter.medalerta.service.UsuarioMedicamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class UsuarioMedicamentoController {
     private UsuarioMedicamentoService usuarioMedicamentoService;
 
     @GetMapping
-    public List<UsuarioMedicamento> listarTodos() {
-        return usuarioMedicamentoService.listarTodos();
+    public List<UsuarioMedicamento> listar(@AuthenticationPrincipal UsuarioDetalhes usuarioLogado) {
+        return usuarioMedicamentoService.listarPorUsuario(usuarioLogado.getUsuario().getIdUsuario());
     }
 
     @GetMapping("/{id}")

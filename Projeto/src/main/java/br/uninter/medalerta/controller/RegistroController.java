@@ -1,9 +1,11 @@
 package br.uninter.medalerta.controller;
 
 import br.uninter.medalerta.model.Registro;
+import br.uninter.medalerta.security.UsuarioDetalhes;
 import br.uninter.medalerta.service.RegistroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,8 +19,8 @@ public class RegistroController {
     private RegistroService registroService;
 
     @GetMapping
-    public List<Registro> listarTodos() {
-        return registroService.listarTodos();
+    public List<Registro> listar(@AuthenticationPrincipal UsuarioDetalhes usuarioLogado) {
+        return registroService.listarPorUsuario(usuarioLogado.getUsuario().getIdUsuario());
     }
 
     @GetMapping("/{id}")

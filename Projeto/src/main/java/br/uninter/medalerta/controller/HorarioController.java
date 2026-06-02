@@ -1,9 +1,11 @@
 package br.uninter.medalerta.controller;
 
 import br.uninter.medalerta.model.Horario;
+import br.uninter.medalerta.security.UsuarioDetalhes;
 import br.uninter.medalerta.service.HorarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
@@ -17,8 +19,8 @@ public class HorarioController {
     private HorarioService horarioService;
 
     @GetMapping
-    public List<Horario> listarTodos() {
-        return horarioService.listarTodos();
+    public List<Horario> listar(@AuthenticationPrincipal UsuarioDetalhes usuarioLogado) {
+        return horarioService.listarPorUsuario(usuarioLogado.getUsuario().getIdUsuario());
     }
 
     @GetMapping("/{id}")
