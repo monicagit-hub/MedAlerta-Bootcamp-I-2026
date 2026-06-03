@@ -9,6 +9,8 @@ import br.uninter.medalerta.service.HorarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import br.uninter.medalerta.security.JwtUtil;
+import br.uninter.medalerta.security.UsuarioDetalhesService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +29,12 @@ public class HorarioControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private UsuarioDetalhesService usuarioDetalhesService;
 
     @MockBean
     private HorarioService horarioService;

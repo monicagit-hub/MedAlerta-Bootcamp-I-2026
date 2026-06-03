@@ -1,6 +1,9 @@
 package br.uninter.medalerta.controller;
 
 import br.uninter.medalerta.model.Usuario;
+import br.uninter.medalerta.security.JwtUtil;
+import br.uninter.medalerta.security.UsuarioDetalhes;
+import br.uninter.medalerta.security.UsuarioDetalhesService;
 import br.uninter.medalerta.service.UsuarioService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -8,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -23,17 +29,29 @@ public class UsuarioControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private JwtUtil jwtUtil;
+
+    @MockBean
+    private UsuarioDetalhesService usuarioDetalhesService;
+
+    @MockBean
     private UsuarioService usuarioService;
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    private UsernamePasswordAuthenticationToken autenticacaoFake() {
+        Usuario usuario = new Usuario("Ana", "41999990001", "ana@email.com");
+        UsuarioDetalhes detalhes = new UsuarioDetalhes(usuario);
+        return new UsernamePasswordAuthenticationToken(detalhes, null, detalhes.getAuthorities());
+    }
 
     @Test
     void deveListarTodosOsUsuarios() throws Exception {
         Usuario usuario = new Usuario("Ana", "41999990001", "ana@email.com");
         when(usuarioService.listarTodos()).thenReturn(List.of(usuario));
 
-        mockMvc.perform(get("/usuarios"))
+        mockMvc.perform(get("/usuarios").with(authentication(autenticacaoFake())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nome").value("Ana"));
     }
@@ -44,6 +62,8 @@ public class UsuarioControllerTest {
         when(usuarioService.salvar(any(Usuario.class))).thenReturn(usuario);
 
         mockMvc.perform(post("/usuarios")
+                .with(authentication(autenticacaoFake()))
+                .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(usuario)))
                 .andExpect(status().isOk())
@@ -55,7 +75,7 @@ public class UsuarioControllerTest {
         when(usuarioService.buscarPorId(999))
                 .thenThrow(new RuntimeException("Usuário não encontrado! ID: 999"));
 
-        mockMvc.perform(get("/usuarios/999"))
+        mockMvc.perform(get("/usuarios/999").with(authentication(autenticacaoFake())))
                 .andExpect(status().isNotFound());
     }
 
