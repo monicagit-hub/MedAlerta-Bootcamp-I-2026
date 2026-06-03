@@ -32,7 +32,7 @@ public class HorarioController {
     public ResponseEntity<Horario> salvar(
             @RequestParam Integer idUsuarioMedicamento,
             @RequestParam String horarioUso,
-            @RequestParam String frequenciaUso) {
+            @RequestParam(required = false) String frequenciaUso) {
         return ResponseEntity.ok(
             horarioService.salvar(idUsuarioMedicamento, LocalTime.parse(horarioUso), frequenciaUso)
         );

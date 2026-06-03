@@ -19,15 +19,6 @@
         <h3>Novo Vínculo</h3>
         <div class="form-grid">
           <div class="form-group">
-            <label>Paciente *</label>
-            <select [(ngModel)]="formulario.idUsuario">
-              <option value="">Selecione</option>
-              @for (usuario of usuarios; track usuario.idUsuario) {
-                <option [value]="usuario.idUsuario">{{ usuario.nome }}</option>
-              }
-            </select>
-          </div>
-          <div class="form-group">
             <label>Medicamento *</label>
             <select [(ngModel)]="formulario.idMedicamento">
               <option value="">Selecione</option>
@@ -64,8 +55,6 @@
       <table class="tabela">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Paciente</th>
             <th>Medicamento</th>
             <th>Dosagem</th>
             <th>Forma de Uso</th>
@@ -75,8 +64,6 @@
         <tbody>
           @for (vinculo of vinculos; track vinculo.idUsuarioMedicamento) {
             <tr>
-              <td>{{ vinculo.idUsuarioMedicamento }}</td>
-              <td>{{ vinculo.usuario?.nome }}</td>
               <td>{{ vinculo.medicamento?.nomeComercial }}</td>
               <td>{{ vinculo.dosagem }}</td>
               <td>{{ vinculo.formaUso }}</td>

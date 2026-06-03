@@ -28,13 +28,14 @@ public class UsuarioMedicamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioMedicamento> salvar( 
-            @RequestParam Integer idUsuario,
+    public ResponseEntity<UsuarioMedicamento> salvar(
+            @AuthenticationPrincipal UsuarioDetalhes usuarioLogado,
             @RequestParam Integer idMedicamento,
             @RequestParam String dosagem,
             @RequestParam String formaUso) {
         return ResponseEntity.ok(
-            usuarioMedicamentoService.salvar(idUsuario, idMedicamento, dosagem, formaUso)
+            usuarioMedicamentoService.salvar(
+                usuarioLogado.getUsuario().getIdUsuario(), idMedicamento, dosagem, formaUso)
         );
     }
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { VinculoService } from '../../core/services/vinculo';
-import { UsuarioService } from '../../core/services/usuario';
 import { MedicamentoService } from '../../core/services/medicamento';
 import { Navbar } from '../../core/components/navbar/navbar';
 
@@ -14,13 +13,11 @@ import { Navbar } from '../../core/components/navbar/navbar';
 export class Vinculos implements OnInit {
 
   vinculos: any[] = [];
-  usuarios: any[] = [];
   medicamentos: any[] = [];
   carregando = true;
   mostrarFormulario = false;
 
   formulario = {
-    idUsuario: '',
     idMedicamento: '',
     dosagem: '',
     formaUso: ''
@@ -28,7 +25,6 @@ export class Vinculos implements OnInit {
 
   constructor(
     private vinculoService: VinculoService,
-    private usuarioService: UsuarioService,
     private medicamentoService: MedicamentoService
   ) {}
 
@@ -45,10 +41,6 @@ export class Vinculos implements OnInit {
       error: () => this.carregando = false
     });
 
-    this.usuarioService.listarTodos().subscribe({
-      next: (dados) => this.usuarios = dados
-    });
-
     this.medicamentoService.listarTodos().subscribe({
       next: (dados) => this.medicamentos = dados
     });
@@ -56,14 +48,13 @@ export class Vinculos implements OnInit {
 
   salvar() {
     this.vinculoService.salvar(
-      Number(this.formulario.idUsuario),
       Number(this.formulario.idMedicamento),
       this.formulario.dosagem,
       this.formulario.formaUso
     ).subscribe({
       next: () => {
         this.mostrarFormulario = false;
-        this.formulario = { idUsuario: '', idMedicamento: '', dosagem: '', formaUso: '' };
+        this.formulario = { idMedicamento: '', dosagem: '', formaUso: '' };
         this.carregarDados();
       },
       error: () => alert('Erro ao salvar vínculo!')

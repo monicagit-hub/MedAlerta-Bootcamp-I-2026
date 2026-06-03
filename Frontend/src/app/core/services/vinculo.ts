@@ -15,9 +15,9 @@ export class VinculoService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  salvar(idUsuario: number, idMedicamento: number, dosagem: string, formaUso: string): Observable<any> {
+  salvar(idMedicamento: number, dosagem: string, formaUso: string): Observable<any> {
     return this.http.post<any>(
-      `${this.apiUrl}?idUsuario=${idUsuario}&idMedicamento=${idMedicamento}&dosagem=${dosagem}&formaUso=${formaUso}`,
+      `${this.apiUrl}?idMedicamento=${idMedicamento}&dosagem=${encodeURIComponent(dosagem)}&formaUso=${encodeURIComponent(formaUso)}`,
       {}
     );
   }
