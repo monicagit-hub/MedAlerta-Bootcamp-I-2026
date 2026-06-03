@@ -7,93 +7,75 @@
     <div class="page-header">
       <div>
         <h2>Alertas</h2>
-        <p>ALERTAS DE MEDICAMENTOS</p>
+        <p>MEDICAMENTOS DE HOJE</p>
       </div>
-      <button class="btn-novo" (click)="mostrarFormulario = !mostrarFormulario">
-        {{ mostrarFormulario ? 'Cancelar' : '+ Novo' }}
-      </button>
     </div>
-
-    @if (mostrarFormulario) {
-      <div class="formulario">
-        <h3>Novo Alerta</h3>
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Horário *</label>
-            <select [(ngModel)]="formulario.idHorario">
-              <option value="">Selecione</option>
-              @for (horario of horarios; track horario.idHorario) {
-                <option [value]="horario.idHorario">
-                  {{ horario.usuarioMedicamento?.usuario?.nome }} —
-                  {{ horario.usuarioMedicamento?.medicamento?.nomeComercial }} —
-                  {{ horario.horarioUso }}
-                </option>
-              }
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Data e Hora *</label>
-            <input type="datetime-local" [(ngModel)]="formulario.dataHorarioAlerta" />
-          </div>
-          <div class="form-group">
-            <label>Status *</label>
-          <select [(ngModel)]="formulario.statusAlerta">
-            <option value="emitido">Emitido</option>
-            <option value="confirmado">Confirmado</option>
-            <option value="cancelado">Cancelado</option>
-            <option value="nao_emitido">Não Emitido</option>
-          </select>
-          </div>
-        </div>
-        <div class="form-acoes">
-          <button class="btn-salvar" (click)="salvar()">Salvar</button>
-          <button class="btn-cancelar" (click)="mostrarFormulario = false">Cancelar</button>
-        </div>
-      </div>
-    }
 
     @if (carregando) {
       <div class="carregando">Carregando...</div>
     }
 
-    @if (!carregando && alertas.length === 0) {
-      <div class="vazio">Nenhum alerta encontrado.</div>
-    }
+    @if (!carregando) {
 
-    @if (!carregando && alertas.length > 0) {
-      <table class="tabela">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Paciente</th>
-            <th>Medicamento</th>
-            <th>Data e Hora</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (alerta of alertas; track alerta.idAlerta) {
-            <tr>
-              <td>{{ alerta.idAlerta }}</td>
-              <td>{{ alerta.horario?.usuarioMedicamento?.usuario?.nome }}</td>
-              <td>{{ alerta.horario?.usuarioMedicamento?.medicamento?.nomeComercial }}</td>
-              <td>{{ alerta.dataHorarioAlerta }}</td>
-              <td>
-                <span class="badge" [class.confirmado]="alerta.statusAlerta === 'confirmado'"
-                                    [class.cancelado]="alerta.statusAlerta === 'cancelado'">
-                  {{ alerta.statusAlerta }}
+      <section class="secao">
+        <p class="secao-titulo">Pendentes</p>
+
+        @if (pendentes.length === 0) {
+          <div class="vazio">Nenhum alerta pendente. Bom trabalho!</div>
+        }
+
+        <div class="alertas-cards">
+          @for (alerta of pendentes; track alerta.idAlerta) {
+            <div class="alerta-card">
+              <div class="alerta-info">
+                <span class="alerta-horario">{{ formatarHorario(alerta.dataHorarioAlerta) }}</span>
+                <span class="alerta-medicamento">
+                  {{ alerta.horario?.usuarioMedicamento?.medicamento?.nomeComercial }}
                 </span>
-              </td>
-              <td>
-                <button class="btn-deletar" (click)="deletar(alerta.idAlerta)">
-                  Deletar
-                </button>
-              </td>
-            </tr>
+                <span class="alerta-dosagem">
+                  {{ alerta.horario?.usuarioMedicamento?.dosagem }}
+                  · {{ alerta.horario?.usuarioMedicamento?.formaUso }}
+                </span>
+              </div>
+              <div class="alerta-acoes">
+                <button class="btn-tomei" (click)="confirmar(alerta.idAlerta)">Tomei</button>
+                <button class="btn-nao-tomei" (click)="cancelar(alerta.idAlerta)">Não tomei</button>
+              </div>
+            </div>
           }
-        </tbody>
-      </table>
+        </div>
+      </section>
+
+      @if (historico.length > 0) {
+        <section class="secao">
+          <p class="secao-titulo">Histórico</p>
+          <table class="tabela">
+            <thead>
+              <tr>
+                <th>Horário</th>
+                <th>Medicamento</th>
+                <th>Dosagem</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (alerta of historico; track alerta.idAlerta) {
+                <tr>
+                  <td>{{ formatarHorario(alerta.dataHorarioAlerta) }}</td>
+                  <td>{{ alerta.horario?.usuarioMedicamento?.medicamento?.nomeComercial }}</td>
+                  <td>{{ alerta.horario?.usuarioMedicamento?.dosagem }}</td>
+                  <td>
+                    <span class="badge" [class]="alerta.statusAlerta">
+                      {{ alerta.statusAlerta }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </section>
+      }
+
     }
 
   </main>

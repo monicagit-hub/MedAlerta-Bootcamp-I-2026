@@ -38,6 +38,16 @@ public class AlertaController {
         );
     }
 
+    @PatchMapping("/{id}/confirmar")
+    public ResponseEntity<Alerta> confirmar(@PathVariable Integer id) {
+        return ResponseEntity.ok(alertaService.confirmar(id));
+    }
+
+    @PatchMapping("/{id}/cancelar")
+    public ResponseEntity<Alerta> cancelar(@PathVariable Integer id) {
+        return ResponseEntity.ok(alertaService.cancelar(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         alertaService.deletar(id);

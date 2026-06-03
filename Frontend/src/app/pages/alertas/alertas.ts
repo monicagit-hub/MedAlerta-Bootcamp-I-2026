@@ -1,38 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { AlertaService } from '../../core/services/alerta';
-import { HorarioService } from '../../core/services/horario';
 import { Navbar } from '../../core/components/navbar/navbar';
 
 @Component({
   selector: 'app-alertas',
-  imports: [FormsModule, Navbar],
+  imports: [Navbar],
   templateUrl: './alertas.html',
   styleUrl: './alertas.scss'
 })
 export class Alertas implements OnInit {
 
   alertas: any[] = [];
-  horarios: any[] = [];
   carregando = true;
-  mostrarFormulario = false;
 
-  formulario = {
-    idHorario: '',
-    dataHorarioAlerta: '',
-    statusAlerta: 'emitido'
-  };
+  constructor(private alertaService: AlertaService) {}
 
-  constructor(
-    private alertaService: AlertaService,
-    private horarioService: HorarioService
-  ) {}
-
-  ngOnInit() {
-    this.carregarDados();
+  get pendentes() {
+    return this.alertas.filter(a => a.statusAlerta === 'emitido');
   }
 
-  carregarDados() {
+  get historico() {
+    return this.alertas.filter(a => a.statusAlerta !== 'emitido');
+  }
+
+  ngOnInit() {
+    this.carregar();
+  }
+
+  carregar() {
+    this.carregando = true;
     this.alertaService.listarTodos().subscribe({
       next: (dados) => {
         this.alertas = dados;
@@ -40,36 +36,26 @@ export class Alertas implements OnInit {
       },
       error: () => this.carregando = false
     });
+  }
 
-    this.horarioService.listarTodos().subscribe({
-      next: (dados) => this.horarios = dados
+  confirmar(id: number) {
+    this.alertaService.confirmar(id).subscribe({
+      next: () => this.carregar(),
+      error: () => alert('Erro ao confirmar alerta.')
     });
   }
 
-  salvar() {
-    this.alertaService.salvar(
-      Number(this.formulario.idHorario),
-      this.formulario.dataHorarioAlerta,
-      this.formulario.statusAlerta
-    ).subscribe({
-      next: () => {
-        this.mostrarFormulario = false;
-        this.formulario = { idHorario: '', dataHorarioAlerta: '', statusAlerta: 'emitido' };
-        this.carregarDados();
-      },
-      error: () => alert('Erro ao salvar alerta!')
+  cancelar(id: number) {
+    this.alertaService.cancelar(id).subscribe({
+      next: () => this.carregar(),
+      error: () => alert('Erro ao cancelar alerta.')
     });
   }
 
-  deletar(id: number) {
-    if (confirm('Tem certeza que deseja deletar este alerta?')) {
-      this.alertaService.deletar(id).subscribe({
-        next: () => {
-          this.alertas = this.alertas.filter(a => a.idAlerta !== id);
-        },
-        error: () => alert('Erro ao deletar alerta!')
-      });
-    }
+  formatarHorario(dataHorario: string): string {
+    if (!dataHorario) return '';
+    const data = new Date(dataHorario);
+    return data.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   }
 
 }

@@ -22,6 +22,14 @@ export class AlertaService {
     );
   }
 
+  confirmar(id: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}/confirmar`, {});
+  }
+
+  cancelar(id: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}/cancelar`, {});
+  }
+
   deletar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
