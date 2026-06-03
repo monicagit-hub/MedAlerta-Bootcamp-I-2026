@@ -86,11 +86,15 @@ UsuarioControllerTest            → 3 testes
 MedicamentoControllerTest        → 3 testes
 UsuarioMedicamentoControllerTest → 2 testes
 HorarioControllerTest            → 2 testes
-AlertaControllerTest             → 2 testes
+AlertaControllerTest             → 4 testes (+ confirmar e cancelar)
 RegistroControllerTest           → 2 testes
 MedalertaApplicationTests        → 1 teste
-                                  = 33 testes ✅
+                                  = 37 testes ✅
 ```
+
+> Testes de controller usam H2 em memória (sem dependência de MySQL).
+> `@MockBean JwtUtil` e `@MockBean UsuarioDetalhesService` adicionados para
+> que o filtro JWT não bloqueie as requisições de teste.
 
 ### 6. Segurança com JWT + Spring Security
 
@@ -138,13 +142,13 @@ Frontend/src/app/
 | Página | Funcionalidades |
 |--------|----------------|
 | Login | Autenticação JWT, estilo Grey's Anatomy com Seattle |
-| Dashboard | Cards de navegação, boas-vindas com dados do usuário |
+| Dashboard | Contadores reais: medicamentos, horários, alertas pendentes e registros |
 | Usuários | Listar, cadastrar, editar, deletar |
 | Medicamentos | Listar, cadastrar, editar, deletar |
-| Vínculos | Listar, cadastrar, deletar |
-| Horários | Listar, cadastrar, deletar |
-| Alertas | Listar, cadastrar, deletar |
-| Registros | Listar, cadastrar, deletar |
+| Vínculos | Listar, cadastrar, deletar (usuário vem do JWT, sem dropdown) |
+| Horários | Listar, cadastrar, deletar (frequência opcional) |
+| Alertas | Cards com "Tomei"/"Não tomei" para pendentes + histórico |
+| Registros | Histórico somente-leitura (criado automaticamente ao confirmar alertas) |
 
 ### Tecnologias utilizadas
 
@@ -189,47 +193,43 @@ POST http://localhost:8080/auth/registro
 
 ---
 
-## 🗺️ Próximos passos
+## 🗺️ Evolução — Status atual
 
 | # | Melhoria | Status |
 |---|----------|--------|
 | 1 | Tratamento de erros (Exception Handler) | ✅ Concluído |
 | 2 | Validações com Bean Validation | ✅ Concluído |
 | 3 | Documentação com Swagger/OpenAPI | ✅ Concluído |
-| 4 | Testes automatizados (33 testes) | ✅ Concluído |
+| 4 | Testes automatizados (37 testes) | ✅ Concluído |
 | 5 | Segurança com Spring Security + JWT | ✅ Concluído |
 | 6 | Roles ADMIN e USER | ✅ Concluído |
 | 7 | Frontend com Angular 19 | ✅ Concluído |
-| 8 | Scheduler automático de alertas | ⬜ Próximo |
-| 9 | Tela de alertas pendentes com confirmação | ⬜ Próximo |
-| 10 | Notificações em tempo real | ⬜ Futuro |
-| 11 | Deploy em produção | ⬜ Futuro |
+| 8 | Scheduler automático de alertas | ✅ Concluído |
+| 9 | Tela de alertas pendentes com confirmação | ✅ Concluído |
+| 10 | Isolamento de dados por usuário autenticado | ✅ Concluído |
+| 11 | Dashboard com dados reais e badge na navbar | ✅ Concluído |
+| 12 | Notificações em tempo real (WebSockets) | ⬜ Futuro |
+| 13 | Deploy em produção | ⬜ Futuro |
 
-### Detalhes do próximo passo — Scheduler automático
-
-O fluxo atual exige que o usuário crie alertas e registros manualmente. O objetivo é automatizar:
+### Fluxo completo implementado
 
 ```
 CONFIGURAÇÃO (feita uma vez):
 Usuário → Medicamento → Vínculo → Horário
 
-EXECUÇÃO (automática):
-Horário 08:00 chega
+EXECUÇÃO AUTOMÁTICA:
+@Scheduled roda a cada minuto
     ↓
-@Scheduled verifica horários e gera Alerta
+Cria Alerta com status "emitido" para cada Horário do dia
     ↓
-Usuário vê alerta pendente na tela
+Badge vermelho aparece na Navbar
     ↓
-Clica "Tomei" ou "Não tomei"
+Usuário acessa /alertas → vê cards com "Tomei" ou "Não tomei"
     ↓
-Registro salvo automaticamente
+Clica → Alerta muda de status + Registro criado automaticamente
+    ↓
+/registros mostra histórico de consumo
 ```
-
-**O que será implementado:**
-- `@Scheduled` no backend rodando a cada minuto
-- Endpoint `GET /alertas/pendentes` para o usuário logado
-- Tela de alertas do dia com botão de confirmação
-- Remoção dos formulários manuais de alerta e registro
 
 ---
 
@@ -240,4 +240,4 @@ Registro salvo automaticamente
 
 ---
 
-*Evolução pessoal — Abril 2026*
+*Evolução pessoal — Abril/Junho 2026*
