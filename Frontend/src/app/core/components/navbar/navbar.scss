@@ -37,11 +37,40 @@
       transition: color 0.2s;
       border-bottom: 1px solid transparent;
       padding-bottom: 2px;
+      position: relative;
 
       &:hover {
         color: white;
         border-bottom-color: #8b0000;
       }
+    }
+
+    .link-alertas {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge-alertas {
+      background: #8b0000;
+      color: white;
+      font-size: 0.6rem;
+      font-style: normal;
+      letter-spacing: 0;
+      min-width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0.3rem;
+      line-height: 1;
+      animation: pulsar 2s ease-in-out infinite;
+    }
+
+    @keyframes pulsar {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.6; }
     }
 
     .usuario-info {

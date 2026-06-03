@@ -10,7 +10,12 @@
     <a routerLink="/medicamentos">Medicamentos</a>
     <a routerLink="/vinculos">Vínculos</a>
     <a routerLink="/horarios">Horários</a>
-    <a routerLink="/alertas">Alertas</a>
+    <a routerLink="/alertas" class="link-alertas">
+      Alertas
+      @if (alertasPendentes > 0) {
+        <span class="badge-alertas">{{ alertasPendentes }}</span>
+      }
+    </a>
     <a routerLink="/registros">Registros</a>
     @if (usuario) {
       <span class="usuario-info">{{ usuario.nome }}</span>
