@@ -90,7 +90,10 @@ export class Medicamentos implements OnInit {
         next: () => {
           this.medicamentos = this.medicamentos.filter(m => m.idMedicamento !== id);
         },
-        error: () => alert('Erro ao deletar medicamento!')
+        error: (err) => {
+          const mensagem = err.error?.mensagem || 'Erro ao deletar medicamento.';
+          alert(mensagem);
+        }
       });
     }
   }

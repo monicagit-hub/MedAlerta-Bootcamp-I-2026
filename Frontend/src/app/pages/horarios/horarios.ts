@@ -69,7 +69,7 @@ export class Horarios implements OnInit {
         next: () => {
           this.horarios = this.horarios.filter(h => h.idHorario !== id);
         },
-        error: () => alert('Erro ao deletar horário!')
+        error: (err) => alert(err.error?.mensagem || 'Erro ao deletar horário.')
       });
     }
   }

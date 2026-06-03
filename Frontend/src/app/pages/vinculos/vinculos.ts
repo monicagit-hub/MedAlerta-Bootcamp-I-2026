@@ -67,7 +67,7 @@ export class Vinculos implements OnInit {
         next: () => {
           this.vinculos = this.vinculos.filter(v => v.idUsuarioMedicamento !== id);
         },
-        error: () => alert('Erro ao deletar vínculo!')
+        error: (err) => alert(err.error?.mensagem || 'Erro ao deletar vínculo.')
       });
     }
   }

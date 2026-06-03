@@ -1,5 +1,6 @@
 package br.uninter.medalerta.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,6 +12,15 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErroResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
+        ErroResponse erro = new ErroResponse(
+            HttpStatus.CONFLICT.value(),
+            "Este item não pode ser excluído pois está sendo usado por outros registros."
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErroResponse> handleRuntimeException(RuntimeException ex) {
