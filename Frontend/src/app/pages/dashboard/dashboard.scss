@@ -163,4 +163,21 @@
     text-transform: uppercase;
     margin: 0;
   }
+
+  &.card-destaque {
+    border-left-color: #cc3333;
+    background: #120808;
+
+    &::after {
+      background: linear-gradient(135deg, rgba(139,0,0,0.12) 0%, transparent 60%);
+    }
+  }
+}
+
+.contador-pendente {
+  color: #cc3333 !important;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0;
 }
